@@ -17,19 +17,64 @@ public class Graph {
 	}
 
 	public void readFromFile(String filePath,String separtor){
-		//compléter
+		try {
+
+			BufferedReader reader = new BufferedReader(new FileReader(filePath));
+			String docLine = reader.readLine();
+			String[] line = docLine.split(separtor);
+
+			for(int id = 1; id < line.length + 1; id++){
+				Node node = new Node(id, line[id - 1]);
+				nodes.add(node);
+			}
+
+			while(docLine != null){
+				double weight;
+				int origin = 0;
+
+				for(int i = 0; i < line.length; i++) {
+
+					if(line[i].isEmpty()){ break; }
+
+					if(line[i].equals("inf")){ weight = inf; }
+
+					else{ weight = Double.parseDouble(line[i]); }
+
+					Edge edge = new Edge(nodes.get(origin),nodes.get(i),weight);
+					edges.add(edge);
+				}
+				origin++;
+			}
+			reader.close();
+		}
+		catch (IOException e){
+			System.err.println("Cannot read file");
+
+		}
+
+
+
 	}
 	
 	public List<Edge> getOutEdges(Node source) {
-		List<Edge> outEdges ; 
-		// compléter
+		List<Edge> outEdges = new LinkedList<Edge>();
+
+		for(Edge edge : edges){
+			if(edge.getSource() == source)
+				outEdges.add(edge);
+		}
 		
 		return outEdges;	
 	}
 	
 	public List<Edge> getInEdges(Node dest) {
-		List<Edge> inEdges ; 
-		// compléter
+		List<Edge> inEdges = new LinkedList<Edge>() ;
+
+		for(Edge edge : edges){
+			if(edge.getSource() == dest)
+				inEdges.add(edge);
+		}
+
 		return inEdges;		
 	}
 	// Accesseurs 
