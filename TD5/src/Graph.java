@@ -17,23 +17,25 @@ public class Graph {
 	}
 
 	public void readFromFile(String filePath,String separtor){
+
 		try {
 
 			BufferedReader reader = new BufferedReader(new FileReader(filePath));
 			String docLine = reader.readLine();
 			String[] line = docLine.split(separtor);
-
-			for(int id = 1; id < line.length + 1; id++){
-				Node node = new Node(id, line[id - 1]);
+			int id = 1;
+			for(int i = 0; i < line.length; i++){
+				Node node = new Node(id, line[i]);
 				nodes.add(node);
+				id++;
 			}
 
-			while(docLine != null){
-				double weight;
+			while((docLine = reader.readLine()) != null){
+				line = docLine.split(separtor);
 				int origin = 0;
 
 				for(int i = 0; i < line.length; i++) {
-
+					double weight;
 					if(line[i].isEmpty()){ break; }
 
 					if(line[i].equals("inf")){ weight = inf; }
